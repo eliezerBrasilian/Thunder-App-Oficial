@@ -35,7 +35,7 @@ export default function Header() {
     <View style={s.headerContainer}>
       <Image
         resizeMode="cover"
-        style={{height: 50, width: 100}}
+        style={{height: 50, width: 110}}
         source={require('../../assets/images/Logo.png')}
       />
 

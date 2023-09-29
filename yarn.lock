@@ -5827,6 +5827,11 @@ react-native-bouncy-checkbox@^3.0.7:
   resolved "https://registry.npmjs.org/react-native-bouncy-checkbox/-/react-native-bouncy-checkbox-3.0.7.tgz"
   integrity sha512-776TgMGt9wTpOQA1TcvFjL5VUn6o945wFYf3Ztqva62/vT2o3JAezLiP7hYh2Svd+PewfWBYSPMs4jeaSoS8Sg==
 
+react-native-dropdown-select-list@^2.0.5:
+  version "2.0.5"
+  resolved "https://registry.npmjs.org/react-native-dropdown-select-list/-/react-native-dropdown-select-list-2.0.5.tgz"
+  integrity sha512-TepbcagQVUMB6nLuIlVU2ghRpQHAECOeZWe8K04ymW6NqbKbxuczZSDFfdCiABiiQ2dFD+8Dz65y4K7/uUEqGg==
+
 react-native-image-picker@^5.6.1:
   version "5.6.1"
   resolved "https://registry.npmjs.org/react-native-image-picker/-/react-native-image-picker-5.6.1.tgz"

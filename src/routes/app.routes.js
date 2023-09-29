@@ -5,14 +5,11 @@ import {colors} from '../assets/colors';
 import BottomTab from '../components/BottomTab';
 import Configurations from '../pages/Configurations';
 import Contratos from '../pages/Contratos';
-import EmAndamento from '../pages/Contratos/EmAndamento';
-import Pagos from '../pages/Contratos/Pagos/Pagos';
 import DadosPessoais from '../pages/Configurations/DadosPessoais';
 import Seguranca from '../pages/Configurations/Seguranca';
 import Chat from '../pages/Chat';
 import Shopping from '../pages/Shopping';
-import CapitalGiro from '../pages/CapitalGiro';
-import FullAccess from '../pages/CapitalGiro/FullAcess';
+import EmprestimoConsignado from '../pages/EmprestimoConsignado/EmprestimoConsignado';
 import ChatAberto from '../pages/Chat/ChatAdmin/ChatAberto';
 import ChatAdminHeader from '../pages/Chat/ChatAdmin/ChatAdminHeader';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
@@ -74,8 +71,10 @@ function HomeStack() {
         component={ConfigStack}
       />
       <Stack.Screen name="Shopping" component={Shopping} />
-      <Stack.Screen name="CapitalGiro" component={CapitalGiro} />
-      <Stack.Screen name="FullAccess" component={FullAccess} />
+      <Stack.Screen
+        name="EmprestimoConsignado"
+        component={EmprestimoConsignado}
+      />
     </Stack.Navigator>
   );
 }

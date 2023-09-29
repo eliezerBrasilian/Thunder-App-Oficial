@@ -9,6 +9,7 @@ import {
   Linking,
   Alert,
   Keyboard,
+  StyleSheet,
 } from 'react-native';
 import {strings} from '../../assets/strings';
 import {colors} from '../../assets/colors';
@@ -24,6 +25,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import firestore from '@react-native-firebase/firestore';
 import {useAsyncStorage} from '../../contexts/AsyncStorage';
+import {SelectList} from 'react-native-dropdown-select-list';
+import {Spinner} from '../../components/Spinner';
 export default function PrimeiroAcesso() {
   const {updatingTrackingId} = useAsyncStorage();
   const nav = useNavigation();
@@ -32,20 +35,78 @@ export default function PrimeiroAcesso() {
   const [isOtimasNoticiasModalVisible, setOtimasNoticiasModalVisible] =
     useState(false);
   const {user} = useContext(AuthContext);
-  const [] = useState('');
-  const [nome] = useState(user.name);
-  const [telefone] = useState(user.phone);
-  const [cep, setCep] = useState('06411150');
-  const [cnpj, setCNPJ] = useState('12011493000144');
-  const [receitaMensal, setReceitaMensal] = useState('50000'); //String(user?.receita_anual)
-  const [email] = useState(user.email);
-  const [montantePedido, setMontantePedido] = useState('10000');
-  const [receitaAnual, setReceitaAnual] = useState('50000'); //String(user?.receita_anual)
-  const [businessName, setBusinessName] = useState('Coca-Cola');
-  const [cargo] = useState('Sócio / Proprietário');
+  const nome = useState(user.name);
+  const telefone = useState(user.phone);
+  const [cep, setCep] = useState('');
+  const email = useState(user.email);
   const [termConfirmed, setTermConfirmed] = useState(false);
   const [termConfirmedBelow, setTermConfirmedBelow] = useState(false);
   const [isKeyboardOpen, setKeyboardOpen] = useState(false);
+  const [states, setStates] = useState([]);
+  const [stateSelected, setStateSelected] = useState([]);
+  const categorias = [
+    {
+      key: '1',
+      value: 'Aposentado',
+    },
+    {
+      key: '2',
+      value: 'Forças Armadas',
+    },
+    {
+      key: '3',
+      value: 'Pensionista',
+    },
+  ];
+  const [categoriaSelected, setCategoriaSelected] = useState([]);
+  const convenios = [
+    {
+      key: '1',
+      value: 'INSS',
+    },
+    {
+      key: '2',
+      value: 'SIAPE',
+    },
+  ];
+  const [convenioSelected, setConvenioSelected] = useState([]);
+
+  async function getEstados() {
+    try {
+      const queryParams = {
+        orderBy: 'nome',
+      };
+      const response = await axios.get(
+        'https://servicodados.ibge.gov.br/api/v1/localidades/estados',
+        {params: queryParams},
+      );
+      console.log(response.data);
+
+      const newData = [];
+
+      // Percorra os dados da API e crie o novo formato
+      response.data.forEach(item => {
+        const newItem = {
+          key: item.id.toString(), // Converta o ID para string
+          value: item.nome + ' - ' + item.sigla, // Use o nome da região como o valor
+        };
+
+        newData.push(newItem);
+      });
+      newData.forEach(i => {
+        console.log(i);
+      });
+      setStates(newData);
+    } catch (error) {
+      console.log(
+        'error on get states - EmprestimoConsignado.js getEstados(): ',
+        error,
+      );
+    }
+  }
+  useEffect(() => {
+    getEstados();
+  }, []);
 
   useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener(
@@ -96,49 +157,6 @@ export default function PrimeiroAcesso() {
       .catch(e => {
         console.log('erro au atualizar campos de capital de giro: ' + e);
       });
-  }
-  async function getStringIdQred() {
-    const REASON_CAPITAL_GIRO = '2';
-    const PRAZO_PAGAMENTO = 12;
-    try {
-      const data = {
-        amount: Number(montantePedido),
-        zipCode: cep.toString(),
-        cnpj: cnpj.toString(),
-        email: email.toString(),
-        installments: PRAZO_PAGAMENTO,
-        name: nome.toString(),
-        phone: telefone.toString(),
-        reason: REASON_CAPITAL_GIRO,
-        revenues: Number(receitaMensal),
-        role: cargo.toString(),
-      };
-
-      const config = {
-        method: 'post',
-        maxBodyLength: Infinity,
-        url: 'https://partner-api-sandbox.qred.com.br/v1/application',
-        headers: {
-          'x-api-key': 'Itm5tXJAVHahuBU5LRj8C4gVEb0TPzbb4WaYkWvJ',
-          Authorization: `Bearer ${user.qredToken}`,
-          'Content-Type': 'application/json',
-        },
-        data: JSON.stringify(data),
-      };
-
-      const response = await axios.request(config);
-      console.log('SUCCESS');
-      console.log(JSON.stringify(response.data));
-
-      updateAsyncStorageData();
-      setOtimasNoticiasModalVisible(false);
-
-      return response.data;
-    } catch (error) {
-      console.log(error.response);
-      setOtimasNoticiasModalVisible(false);
-      return null;
-    }
   }
 
   async function handleAsyncStorage(trackingId) {
@@ -229,7 +247,7 @@ export default function PrimeiroAcesso() {
   return (
     <Modal onRequestClose={() => nav.goBack()}>
       <View style={s.main}>
-        <Header title={strings.capital_giro} color={colors.main_blue} />
+        <Header title={'Empréstimo Consignado'} color={colors.main_blue} />
         <ScrollView>
           <View>
             <TermosUso
@@ -241,47 +259,7 @@ export default function PrimeiroAcesso() {
               setModalVisible={setOtimasNoticiasModalVisible}
             />
             <Text style={s.heading}>{strings.heading_capital_de_giro}</Text>
-            <Input
-              label={strings.cnpj}
-              placeholderColor="#A0A0A0"
-              placeholderText={strings.cnpj_placeholder}
-              backgroundColor="#F6F6F6"
-              value={cnpj}
-              setValue={setCNPJ}
-              isMaskInput={true}
-              mask={Masks.BRL_CNPJ}
-              keyboardType="numeric"
-            />
-            <Input
-              label={strings.nome_empresa_label}
-              placeholderColor="#A0A0A0"
-              placeholderText={strings.nome_empresa_placeholder}
-              backgroundColor="#F6F6F6"
-              value={businessName}
-              setValue={setBusinessName}
-            />
-            <Input
-              label={strings.receita_mensal}
-              placeholderColor="#A0A0A0"
-              placeholderText={strings.receita_mensal_placeholder}
-              backgroundColor="#F6F6F6"
-              value={receitaMensal}
-              setValue={setReceitaMensal}
-              isMaskInput={true}
-              mask={Masks.BRL_CURRENCY}
-              keyboardType="numeric"
-            />
-            <Input
-              label={strings.montante_label}
-              placeholderColor="#A0A0A0"
-              placeholderText={strings.montante_placeholder}
-              backgroundColor="#F6F6F6"
-              value={montantePedido}
-              setValue={setMontantePedido}
-              isMaskInput={true}
-              mask={Masks.BRL_CURRENCY}
-              keyboardType="numeric"
-            />
+
             <Input
               label={strings.cep_label}
               placeholderColor="#A0A0A0"
@@ -292,6 +270,24 @@ export default function PrimeiroAcesso() {
               isMaskInput={true}
               mask={Masks.ZIP_CODE}
               keyboardType="numeric"
+            />
+            <Spinner
+              data={categorias}
+              label={'Empréstimo para'}
+              placeholder={'Selecione a opção correspondente'}
+              setSelected={setCategoriaSelected}
+            />
+            <Spinner
+              data={convenios}
+              label={'Convênio aposentado'}
+              placeholder={'Selecione o tipo de convênio'}
+              setSelected={setConvenioSelected}
+            />
+            <Spinner
+              data={states}
+              label={'Estado pelo qual se aposentou'}
+              placeholder={'Selecione o estado'}
+              setSelected={setStateSelected}
             />
           </View>
         </ScrollView>
@@ -320,33 +316,11 @@ export default function PrimeiroAcesso() {
                 de uso da Plataforma.
               </Text>
             </View>
-            <View style={s.termView}>
-              <BouncyCheckbox
-                size={25}
-                fillColor={colors.main_blue}
-                text="Custom Checkbox"
-                disableText={true}
-                iconStyle={{borderColor: colors.main_blue}}
-                innerIconStyle={{borderWidth: 2}}
-                textStyle={{fontFamily: 'JosefinSans-Regular'}}
-                onPress={isChecked => setTermConfirmedBelow(isChecked)}
-                isChecked={true}
-              />
-              <Text style={s.term}>
-                Estou de acordo que a{' '}
-                <Text
-                  onPress={goToFicashWebsite}
-                  style={[s.term, {color: colors.main_blue}]}>
-                  Ficash
-                </Text>{' '}
-                e seus parceiros financiadores acessem informações da empresa
-                cadastrada.
-              </Text>
-            </View>
+
             <Button
               onclick={sendBusinessData}
-              backgroundColor={colors.main_blue}
-              title={strings.cadastrar_minha_empresa}
+              backgroundColor={colors.main_green}
+              title={'Enviar Solicitação'}
             />
           </View>
         )}
@@ -354,3 +328,11 @@ export default function PrimeiroAcesso() {
     </Modal>
   );
 }
+
+const styles = StyleSheet.create({
+  label: {
+    color: '#000',
+    fontSize: 17,
+    marginVertical: 14,
+  },
+});

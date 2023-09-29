@@ -19,17 +19,19 @@ export default Simulacoes = () => {
     {
       icon: require('../../assets/images/dollar_sign.png'),
       title: strings.emprestimo_consignado,
-      actionText: strings.simular_agora,
+      navigate_to: 'EmprestimoConsignado',
     },
     {
       icon: require('../../assets/images/exchange.png'),
       title: strings.portabilidade_consignado,
       actionText: strings.simular_agora,
+      navigate_to: 'EmprestimoConsignado',
     },
     {
       icon: require('../../assets/images/gift_box.png'),
       title: strings.emprestimo_saque_aniversario,
       actionText: strings.simular_agora,
+      navigate_to: 'EmprestimoConsignado',
     },
   ];
   return (
@@ -54,17 +56,15 @@ function Item({data}) {
 
       <Text style={s.text}>{data.text}</Text>
       <TouchableOpacity
-        onPress={() => solicitar(index, nav)}
+        onPress={() => solicitar(nav, data.navigate_to)}
         style={s.btn_simulate}>
-        <Text style={s.btnOnBelowSliderText}>{data.actionText}</Text>
+        <Text style={s.btnOnBelowSliderText}>{strings.simular_agora}</Text>
       </TouchableOpacity>
     </View>
   );
 }
-function solicitar(index, nav) {
-  if (index == 0) {
-    nav.navigate('CapitalGiro');
-  }
+function solicitar(nav, screen) {
+  nav.navigate(screen);
 }
 
 const s = StyleSheet.create({
