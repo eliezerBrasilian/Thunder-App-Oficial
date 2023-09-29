@@ -10,6 +10,8 @@ const strings = {
   simule_seu_emprestimo_de:
     'Logo após a inscrição você receberá um contato com os próximos passos. Tudo digital, desde a solicitação até o depósito em sua conta!',
   seguro: '100% seguro!',
+  portabilidade_consignado: 'Portabilidade\nde Consignado',
+  emprestimo_saque_aniversario: 'Empréstimo\nSaque-Aniversário',
   regulamentado:
     'Mantemos os seus dados integralmente protegidos e você sabe exatamente quanto vai pagar todo mês, sem taxas escondidas.',
   cadastro: 'Cadastro',
@@ -32,11 +34,10 @@ const strings = {
   login: 'Login',
   cpf_label: 'CPF',
   cpf_placeholder: 'XXX.XXX.XXX - XX',
-  emprestimo: 'Empréstimo',
-  consignado: 'Consignado',
+  emprestimo_consignado: 'Empréstimo\nConsignado',
   simplificado_:
     'Simplificado, disponível para beneficiários do INSS com processamento rápido e seguro.',
-  solicitar_agora: 'Solicitar agora',
+  simular_agora: 'Simular agora',
   saiba_mais: 'Saiba mais',
   convide_seu_amigo: 'Convide seu amigo e o ajude a sair das dívidas',
   shopping: 'Shopping',

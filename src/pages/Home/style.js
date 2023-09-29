@@ -5,7 +5,7 @@ const s = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    backgroundColor: colors.light,
+    backgroundColor: '#f8f7ff',
     paddingTop: 15,
     paddingBottom: 15,
     paddingHorizontal: 20,
@@ -17,7 +17,7 @@ const s = StyleSheet.create({
   },
   mainContainer: {
     flex: 1,
-    backgroundColor: colors.light,
+    backgroundColor: '#f8f7ff',
     rowGap: 10,
     padding: 10,
   },
@@ -25,36 +25,7 @@ const s = StyleSheet.create({
     flex: 1,
     minHeight: 200,
   },
-  belowSliderContainer: {
-    backgroundColor: colors.gray,
-    borderRadius: 5,
-    padding: 15,
-    rowGap: 2,
-    borderRadius: 10,
-  },
 
-  title: {
-    fontSize: 24,
-    color: colors.main_blue,
-    fontWeight: '600',
-  },
-  text: {
-    fontSize: 17,
-    color: '#000',
-  },
-  btnOnBelowSlider: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 10,
-    alignSelf: 'flex-start',
-    backgroundColor: colors.main_blue,
-    borderRadius: 10,
-    marginTop: 5,
-  },
-  btnOnBelowSliderText: {
-    fontSize: 17,
-    color: '#fff',
-  },
   inviteContainer: {
     backgroundColor: colors.gray,
     borderRadius: 5,

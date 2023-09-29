@@ -10,15 +10,12 @@ import {
   Image,
 } from 'react-native';
 import TopSlider from './TopSlider';
-import BelowSlider from './BelowSlider';
+import Simulacoes from './Simulacoes';
 import {strings} from '../../assets/strings';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import InviteContainer from './InviteContainer';
-import {useNavigation} from '@react-navigation/native';
 
 export default function Home() {
-  const nav = useNavigation();
-
   return (
     <View style={{flex: 1}}>
       <Header />
@@ -30,7 +27,7 @@ export default function Home() {
           <Text style={[s.title, {fontSize: 20, marginBottom: -8}]}>
             {strings.emprestimo}
           </Text>
-          <BelowSlider />
+          <Simulacoes />
           <Text
             style={[
               s.title,
