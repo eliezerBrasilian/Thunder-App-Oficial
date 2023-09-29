@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "533494993880",
+    "project_id": "ficash-26b17",
+    "storage_bucket": "ficash-26b17.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:533494993880:android:12e5b707d8384d4e41d8ad",
+        "android_client_info": {
+          "package_name": "com.ficash"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "533494993880-02v9ip3vad68mmmc6kvku310mqt08950.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ficash",
+            "certificate_hash": "714b3531f04ffc3e21aaa06ef470294032135a3d"
+          }
+        },
+        {
+          "client_id": "533494993880-usqsfg57nvj4isslbuda9p57rmn9gag5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCLLVQBCzYhECC0J3ZVpEx0H6p0xU3j7yA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "533494993880-usqsfg57nvj4isslbuda9p57rmn9gag5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
