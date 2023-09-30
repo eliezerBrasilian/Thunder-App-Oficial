@@ -43,12 +43,13 @@ export default function Configurations() {
           icon={<Entypo name={'chat'} color={colors.main_blue} size={30} />}
           goTo={'ChatTab'}
         />
-        <ListItem
+        {/* <ListItem
           title={strings.excluir_conta}
           icon={
             <FontAwesome name={'trash-o'} color={colors.main_blue} size={30} />
           }
-        />
+          goTo={'DeleteAccount'}
+        /> */}
 
         <Footer />
       </View>

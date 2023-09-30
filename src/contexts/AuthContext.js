@@ -4,6 +4,7 @@ import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
 import bcrypt from 'react-native-bcrypt';
+import {err} from 'react-native-svg/lib/typescript/xml';
 export const AuthContext = createContext({});
 
 export default function AuthProvider({children}) {
@@ -12,10 +13,30 @@ export default function AuthProvider({children}) {
   const [isLoadingAuth, setLoadingAuth] = useState(false);
   const [isLoadingApp, setLoadingApp] = useState(true);
   const [isLoadingPhoto, setLoadingPhoto] = useState(false);
-
+  const [isDeleting, setDeleting] = useState(false);
   useEffect(() => {
     loadData();
   }, []);
+
+  async function deleteAccount() {
+    setDeleting(true);
+
+    const response = await auth()
+      .currentUser.delete()
+      .then(async () => {
+        console.log('usuario excluido com sucesso!');
+        setDeleting(false);
+        signOut();
+        return true;
+      })
+      .catch(e => {
+        console.log('erro ao deletar usuairo: ' + e);
+        setDeleting(false);
+        return false;
+      });
+
+    return response;
+  }
 
   async function savePhoto(path) {
     setLoadingPhoto(true);
@@ -350,6 +371,8 @@ export default function AuthProvider({children}) {
         loadData,
         savePhoto,
         isLoadingPhoto,
+        deleteAccount,
+        isDeleting,
       }}>
       {children}
     </AuthContext.Provider>

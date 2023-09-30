@@ -14,6 +14,7 @@ import ChatAberto from '../pages/Chat/ChatAdmin/ChatAberto';
 import ChatAdminHeader from '../pages/Chat/ChatAdmin/ChatAdminHeader';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import Notificacoes from '../pages/Notificacoes/Notificacoes';
+import DeleteAccount from '../pages/DeleteAccount/DeleteAccount';
 const TopTab = createMaterialTopTabNavigator();
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -76,6 +77,7 @@ function HomeStack() {
         component={EmprestimoConsignado}
       />
       <Stack.Screen name="Notificacoes" component={Notificacoes} />
+      <Stack.Screen name="DeleteAccount" component={DeleteAccount} />
     </Stack.Navigator>
   );
 }

@@ -10,8 +10,8 @@ import {AuthContext} from '../../contexts/AuthContext';
 import {Masks} from 'react-native-mask-input';
 export default function Login() {
   const {login} = useContext(AuthContext);
-  const [cpf, setCPF] = useState('12345678901');
-  const [password, setPassword] = useState('123456');
+  const [cpf, setCPF] = useState('');
+  const [password, setPassword] = useState('');
 
   async function handleLogin() {
     if (cpf.trim() !== '' && password.trim() !== '') {
