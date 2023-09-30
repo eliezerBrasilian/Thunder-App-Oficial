@@ -1,6 +1,6 @@
 import {StyleSheet, View, Image, Text} from 'react-native';
-import {colors} from '../../assets/colors';
-export default function SemContratos({description, image}) {
+import {colors} from '../assets/colors';
+export default function Vazio({description, image}) {
   return (
     <View style={s.pagosMain}>
       <Image style={s.image} source={image} resizeMode="contain" />

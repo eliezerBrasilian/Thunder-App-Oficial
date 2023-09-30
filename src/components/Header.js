@@ -1,7 +1,11 @@
 import {View, Text, TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Feather';
-export default function Header({title, color, action = 'goBack'}) {
+export default function Header({
+  title,
+  color = colors.main_blue,
+  action = 'goBack',
+}) {
   const nav = useNavigation();
   function method() {
     action == 'goBack' ? nav.goBack() : nav.navigate('Home');
@@ -32,6 +36,7 @@ const s = StyleSheet.create({
     flexDirection: 'row',
     marginBottom: 20,
     justifyContent: 'space-between',
+    alignItems: 'center',
   },
   title: {
     fontSize: 22,

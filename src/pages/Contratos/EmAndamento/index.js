@@ -5,7 +5,7 @@ import {colors} from '../../../assets/colors';
 import {useContext} from 'react';
 import Painel from './Painel';
 import Solicitacoes from './Solicitacoes';
-import SemContratos from '../../../components/SemContratos';
+import SemContratos from '../../../components/Vazio';
 export default function EmAndamento() {
   const {contratos} = useContext(ContratoContext);
 

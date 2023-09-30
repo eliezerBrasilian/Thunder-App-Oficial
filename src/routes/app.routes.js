@@ -13,7 +13,7 @@ import EmprestimoConsignado from '../pages/EmprestimoConsignado/EmprestimoConsig
 import ChatAberto from '../pages/Chat/ChatAdmin/ChatAberto';
 import ChatAdminHeader from '../pages/Chat/ChatAdmin/ChatAdminHeader';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
-
+import Notificacoes from '../pages/Notificacoes/Notificacoes';
 const TopTab = createMaterialTopTabNavigator();
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -75,6 +75,7 @@ function HomeStack() {
         name="EmprestimoConsignado"
         component={EmprestimoConsignado}
       />
+      <Stack.Screen name="Notificacoes" component={Notificacoes} />
     </Stack.Navigator>
   );
 }

@@ -4,7 +4,7 @@ import {useContext} from 'react';
 import {strings} from '../../../assets/strings';
 import {colors} from '../../../assets/colors';
 import {s} from './style';
-import SemContratos from '../../../components/SemContratos';
+import SemContratos from '../../../components/Vazio';
 export default function Pagos() {
   const {contratos, setContratos} = useContext(ContratoContext);
   return (
