@@ -2,7 +2,7 @@ import {colors} from '../../assets/colors';
 import {strings} from '../../assets/strings';
 import {View, ScrollView} from 'react-native';
 import {s} from '../Login/style';
-import Header from '../../components/AuthComponents/Header';
+import Header from '../../components/Header';
 import Input from '../../components/AuthComponents/Input';
 import Button from '../../components/AuthComponents/Button';
 import {useState} from 'react';

@@ -14,30 +14,9 @@ export default function AuthProvider({children}) {
   const [isLoadingApp, setLoadingApp] = useState(true);
 
   useEffect(() => {
-    getLatelyQredToken();
     loadData();
   }, []);
 
-  async function getLatelyQredToken() {
-    try {
-      const userData = await AsyncStorage.getItem('@userData');
-      if (userData !== null) {
-        let qredToken = await getQredToken();
-        console.log('qred token: ' + qredToken);
-
-        const data = JSON.parse(userData);
-        data.qredToken = qredToken;
-        //Salvando o objeto atualizado no AsyncStorage
-        await AsyncStorage.setItem('@userData', JSON.stringify(data));
-
-        console.log('qredToken atualizado com sucesso!');
-      } else {
-        console.log('Chave não encontrada no AsyncStorage.');
-      }
-    } catch (error) {
-      console.error('Erro ao atualizar o atributo do objeto:', error);
-    }
-  }
   async function loadData() {
     setLoadingApp(true);
     try {
@@ -116,6 +95,12 @@ export default function AuthProvider({children}) {
     password,
   ) {
     try {
+      const emprestimo_consignado = {
+        estado_uf: '',
+        convenio: '',
+        estado_do_pedinte: '', //aposentado...
+        status: false, //solicitou
+      };
       await firestore()
         .collection('users')
         .doc(user_id)
@@ -134,9 +119,8 @@ export default function AuthProvider({children}) {
           receita_anual: 0,
           faturamento_mensal: 0,
           nome_empresa: '',
-          cargo: '',
+          emprestimo_consignado: emprestimo_consignado,
           montante_solicitado: 0,
-          qred_tracking_id: '',
         })
         .then(async () => {
           console.log('user created');
@@ -245,37 +229,6 @@ export default function AuthProvider({children}) {
     }
   }
 
-  const getQredToken = async () => {
-    try {
-      const data = qs.stringify({
-        grant_type: 'client_credentials',
-        client_id: 'ficash-sandbox-svc',
-        client_secret: '29f6133c-9314-42d3-a358-fa00513b4a33',
-      });
-
-      const config = {
-        method: 'post',
-        maxBodyLength: Infinity,
-        url: 'https://partner-api-sandbox.qred.com.br/v1/auth',
-        headers: {
-          'x-api-key': 'Itm5tXJAVHahuBU5LRj8C4gVEb0TPzbb4WaYkWvJ',
-          'Content-Type': 'application/x-www-form-urlencoded', // Set the content type
-        },
-        data: data,
-      };
-
-      const response = await axios(config);
-      // console.log(JSON.stringify(response.data));
-      //console.log('TOKEN: ' + response.data.access_token);
-      return response.data.access_token;
-    } catch (error) {
-      console.log(
-        'AuthContext.js - getQredToken() - ' +
-          JSON.stringify(error.response.data.message),
-      );
-    }
-  };
-
   async function login(cpf, inputPassword) {
     setLoadingAuth(true);
 
@@ -294,14 +247,9 @@ export default function AuthProvider({children}) {
       return 406;
     }
 
-    //get qred_token
-    let qredToken = await getQredToken();
-    console.log('qred token: ' + qredToken);
-
     try {
       console.log('user data: ' + JSON.stringify(user));
       user.localPassword = inputPassword;
-      user.qredToken = qredToken;
       writeUserData(user);
     } catch (error) {
       if (error.code == 'auth/invalid-email') return 400;

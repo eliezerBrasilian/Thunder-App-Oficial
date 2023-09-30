@@ -3,7 +3,7 @@ import {Text, View, ScrollView, Image, Modal} from 'react-native';
 
 import {strings} from '../../assets/strings';
 import {colors} from '../../assets/colors';
-import Header from '../../components/AuthComponents/Header';
+import Header from '../../components/Header';
 import {s} from './style';
 import {useNavigation} from '@react-navigation/native';
 import {AuthContext} from '../../contexts/AuthContext';

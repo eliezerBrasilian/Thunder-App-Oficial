@@ -6,6 +6,10 @@ import {strings} from '../../assets/strings';
 import Footer from './Footer';
 import {useContext, useState, useEffect} from 'react';
 import {AuthContext} from '../../contexts/AuthContext';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import Feather from 'react-native-vector-icons/Feather';
+import Entypo from 'react-native-vector-icons/Entypo';
+import {colors} from '../../assets/colors';
 export default function Configurations() {
   const {user} = useContext(AuthContext);
   const [modalVisible, setModalVisible] = useState(true);
@@ -16,32 +20,34 @@ export default function Configurations() {
     };
   });
   return (
-    <ScrollView>
+    <ScrollView style={{flex: 1, backgroundColor: '#fff'}}>
       <View style={s.mainContent}>
         <Header name={user.name} />
         <ListItem
           title={strings.dados_pessoais}
-          icon={require('../../assets/images/person.png')}
-          iconSize={35}
+          icon={
+            <FontAwesome name={'user-o'} color={colors.main_blue} size={30} />
+          }
           goTo="DadosPessoais"
         />
-        {/* <ListItem
-          title={strings.emprestimo}
-          icon={require('../../assets/images/loan.png')}
-          iconSize={32}
-        /> */}
+
         <ListItem
           title={strings.seguranca}
-          icon={require('../../assets/images/security-lock.png')}
+          icon={
+            <FontAwesome name={'lock'} color={colors.main_blue} size={34} />
+          }
           goTo="Seguranca"
         />
         <ListItem
           title={strings.fale_conosco}
-          icon={require('../../assets/images/chat.png')}
+          icon={<Entypo name={'chat'} color={colors.main_blue} size={30} />}
+          goTo={'ChatTab'}
         />
         <ListItem
           title={strings.excluir_conta}
-          icon={require('../../assets/images/bin.png')}
+          icon={
+            <FontAwesome name={'trash-o'} color={colors.main_blue} size={30} />
+          }
         />
 
         <Footer />

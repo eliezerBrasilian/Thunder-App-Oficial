@@ -42,7 +42,9 @@ export default function Header({name}) {
             </LinearGradient>
           )}
 
-          <Text style={s.headingText}>Olá, {name}!</Text>
+          <Text numberOfLines={1} style={[s.headingText, {width: 200}]}>
+            Olá, {name}!
+          </Text>
         </View>
       </View>
       <InputSearch padding={17} fontSize={19} iconSize={30} />

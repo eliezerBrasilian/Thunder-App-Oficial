@@ -23,6 +23,7 @@
     "qs": "^6.11.2",
     "react": "18.2.0",
     "react-native": "0.72.3",
+    "react-native-alert-notification": "^0.3.5",
     "react-native-animated-pagination-dots": "^0.1.73",
     "react-native-bcrypt": "^2.4.0",
     "react-native-bottom-action-sheet": "^2.0.2",

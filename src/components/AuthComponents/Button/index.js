@@ -2,7 +2,12 @@ import {TouchableOpacity, Text, ActivityIndicator} from 'react-native';
 import {s} from './style';
 import {useContext} from 'react';
 import {AuthContext} from '../../../contexts/AuthContext';
-export default function Button({title, onclick, backgroundColor = ''}) {
+export default function Button({
+  title,
+  onclick,
+  backgroundColor = '',
+  isLoading,
+}) {
   const {isLoadingAuth} = useContext(AuthContext);
   return (
     <TouchableOpacity
@@ -12,7 +17,7 @@ export default function Button({title, onclick, backgroundColor = ''}) {
           ? s.btnContainer
           : [s.btnContainer, {backgroundColor: backgroundColor}]
       }>
-      {isLoadingAuth ? (
+      {isLoadingAuth || isLoading ? (
         <ActivityIndicator color="#fff" size={26} />
       ) : (
         <Text style={s.btnText}>{title}</Text>

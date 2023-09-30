@@ -1,5 +1,5 @@
 import {View, Image, TouchableOpacity, Text} from 'react-native';
-import Header from '../../components/AuthComponents/Header';
+import Header from '../../components/Header';
 import {colors} from '../../assets/colors';
 import {strings} from '../../assets/strings';
 import {s} from './style';

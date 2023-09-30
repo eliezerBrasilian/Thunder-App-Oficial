@@ -108,8 +108,7 @@ const strings = {
   linkDLK: 'https://www.dlkmodas.com.br',
   linkCarrefour:
     'https://play.google.com/store/apps/details?id=br.com.carrefour',
-  heading_capital_de_giro:
-    'Faça seu cadastro e acesse dezenas de financiadores de uma só vez.',
+  heading_capital_de_giro: 'Seus sonhos à um clique de distância.',
   cnpj: 'CNPJ',
   cnpj_placeholder: 'Digite o cnpj da sua empresa...',
   receita_anual: 'Receita Anual',

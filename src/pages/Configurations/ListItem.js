@@ -14,15 +14,7 @@ export default function ListItem({icon, title, iconSize = 0, goTo}) {
       activeOpacity={0.4}
       style={s.listContainer}>
       <View style={s.listLeft}>
-        {iconSize != 0 ? (
-          <Image
-            style={[s.listIcon, {height: iconSize, width: iconSize}]}
-            source={icon}
-          />
-        ) : (
-          <Image style={s.listIcon} source={icon} />
-        )}
-
+        {icon}
         <Text style={s.listTitle}>{title}</Text>
       </View>
 

@@ -24,17 +24,9 @@ export default function Home() {
           <StatusBar backgroundColor={colors.light} barStyle={'dark-content'} />
 
           <TopSlider />
-          <Text style={[s.title, {fontSize: 20, marginBottom: -8}]}>
-            {strings.emprestimo}
-          </Text>
+
           <Simulacoes />
-          <Text
-            style={[
-              s.title,
-              {fontSize: 20, marginBottom: -10, marginTop: -12},
-            ]}>
-            {strings.saiba_mais}
-          </Text>
+
           <InviteContainer />
           <TouchableOpacity
             onPress={function () {
