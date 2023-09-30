@@ -10,11 +10,7 @@ const s = StyleSheet.create({
     paddingBottom: 15,
     paddingHorizontal: 20,
   },
-  profileIcon: {
-    height: 55,
-    width: 55,
-    borderRadius: 27.5,
-  },
+
   mainContainer: {
     flex: 1,
     backgroundColor: '#f8f7ff',

@@ -2,9 +2,8 @@ import React, {createContext, useState, useEffect} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
+import storage from '@react-native-firebase/storage';
 import bcrypt from 'react-native-bcrypt';
-import axios from 'axios';
-import qs from 'qs';
 export const AuthContext = createContext({});
 
 export default function AuthProvider({children}) {
@@ -12,10 +11,82 @@ export default function AuthProvider({children}) {
   const [profilePhoto, setProfilePhoto] = useState(null);
   const [isLoadingAuth, setLoadingAuth] = useState(false);
   const [isLoadingApp, setLoadingApp] = useState(true);
+  const [isLoadingPhoto, setLoadingPhoto] = useState(false);
 
   useEffect(() => {
     loadData();
   }, []);
+
+  async function savePhoto(path) {
+    setLoadingPhoto(true);
+    const docRef = firestore().collection('users').doc(user.user_id);
+
+    const storagePath = await getPhotoUrl(path);
+    console.log('STORAGEPATH: ' + storage);
+    if (storagePath == '') {
+      console.log('não foi possivel salvar a foto no storage');
+      return 404;
+    } else {
+      try {
+        await docRef
+          .update({
+            profilePhoto: path,
+          })
+          .then(() => {
+            console.log('atualizada no firestore');
+          })
+          .catch(e => {
+            console.log('erro ao atualizar imagem no firestore: ', e);
+          });
+        console.log('imagem salva no storage');
+        await updatePhotoOnAsyncStorage(path);
+        return 200;
+      } catch (error) {
+        console.log('erro ao salvar imagem no banco de dados: ' + error);
+        return 401;
+      }
+    }
+  }
+
+  async function getPhotoUrl(file_on_memory) {
+    const miliseconds = String(Date.now());
+
+    try {
+      const storageRef = await storage().ref('users/photos').child(miliseconds);
+      console.log('STORAGEREF: ' + storageRef);
+      await storageRef.putFile(file_on_memory);
+      const caminho = await storageRef.getDownloadURL();
+      console.log(caminho);
+      return caminho;
+    } catch (error) {
+      console.log('erro: ' + error);
+      // Alert.alert('Aconteceu algum erro ao adicionar o game!');
+      return '';
+    }
+  }
+  async function updatePhotoOnAsyncStorage(profilePhoto) {
+    user.profile_photo = profilePhoto;
+    try {
+      const userData = await AsyncStorage.getItem('@userData');
+      if (userData !== null) {
+        const data = JSON.parse(userData);
+        data.profile_photo = profilePhoto;
+
+        //Salvando o objeto atualizado no AsyncStorage
+        await AsyncStorage.setItem('@userData', JSON.stringify(data));
+
+        console.log('Atributo do objeto atualizado com sucesso!');
+        setLoadingPhoto(false);
+        setProfilePhoto(profilePhoto);
+      } else {
+        console.log('Chave não encontrada no AsyncStorage.');
+        setLoadingPhoto(false);
+      }
+    } catch (error) {
+      console.error('Erro ao atualizar o atributo do objeto:', error);
+      setLoadingPhoto(false);
+    }
+  }
 
   async function loadData() {
     setLoadingApp(true);
@@ -26,7 +97,7 @@ export default function AuthProvider({children}) {
         const userData = JSON.parse(ud);
         console.log(userData);
         setUser(userData);
-        setProfilePhoto(userData.profilePhoto);
+        setProfilePhoto(userData.profile_photo);
       }
     } catch (error) {
       console.log(`error - AuthContext - loadData(): ${error}`);
@@ -277,6 +348,8 @@ export default function AuthProvider({children}) {
         setLoadingAuth,
         signOut,
         loadData,
+        savePhoto,
+        isLoadingPhoto,
       }}>
       {children}
     </AuthContext.Provider>

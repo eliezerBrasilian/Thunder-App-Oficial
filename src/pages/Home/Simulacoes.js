@@ -60,12 +60,18 @@ export default Simulacoes = () => {
     },
   ];
   return (
-    <FlatList
-      data={carouselItems}
-      renderItem={({item}) => <Item data={item} />}
-      horizontal={true}
-      contentContainerStyle={{columnGap: 15}}
-    />
+    <View>
+      <FlatList
+        data={carouselItems}
+        renderItem={({item}) => <Item data={item} />}
+        horizontal={true}
+        contentContainerStyle={{
+          columnGap: 15,
+          borderColor: 'blue',
+          borderWidth: 5,
+        }}
+      />
+    </View>
   );
 };
 
@@ -117,10 +123,10 @@ const s = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#fff',
-
-    borderColor: '#000',
-    borderWidth: 0.2,
+    borderColor: colors.gray_line,
+    borderWidth: 1,
     borderRadius: 20,
+    elevation: 4,
   },
   icon: {
     height: 40,
