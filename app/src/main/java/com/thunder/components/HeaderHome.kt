@@ -21,14 +21,16 @@ import androidx.navigation.NavHostController
 import com.thunder.oficial.R
 
 @Composable
-fun HeaderHome(nav:NavHostController){
-    var mod = Modifier
+fun HeaderHome(nav:NavHostController,showIcon:Boolean = true){
+    val mod = Modifier
     Box(
         mod
             .fillMaxWidth()
             .height(90.dp).background(Color.White).padding(15.dp)){
       Row(mod.fillMaxSize(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically){
           Image(painter = painterResource(id = R.drawable.thunder_icon), contentDescription = "logo",mod.height(22.dp))
+
+         if(showIcon)
           Image(painter = painterResource(id = R.drawable.login_icon), contentDescription = "login",mod.height(35.dp).clickable {
               nav.navigate("Login")
           })

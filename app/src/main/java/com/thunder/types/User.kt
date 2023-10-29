@@ -1,3 +1,5 @@
-package com.thunder.Types
+package com.thunder.types
 
-data class User()
+data class User(
+    val uid:String,val email:String,val name:String,val foto:String
+)

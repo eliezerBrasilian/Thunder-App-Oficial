@@ -4,7 +4,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -29,10 +28,11 @@ fun SistemaCard(image:Int,title:String?){
         ), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
             Image(painter = painterResource(id = image), contentDescription = "banner",
                 mod
-                    .height(90.dp)
-                    .width(90.dp), contentScale = ContentScale.Crop)
+                    .height(120.dp)
+                    .width(120.dp), contentScale = ContentScale.Crop)
             if(title !== null)
-            TextContent(title = title, fontWeight = 400, fontSize = 16.sp
+            TextInput(
+                title = title, fontSize = 16.sp, fontWeight = 400
             )
         }
 

@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -29,20 +28,22 @@ import com.thunder.components.CustomCard
 import com.thunder.components.HeaderHome
 import com.thunder.components.SistemaCard
 import com.thunder.components.TextContent
+import com.thunder.components.TextInput
 import com.thunder.oficial.R
-import org.intellij.lang.annotations.JdkConstants.HorizontalAlignment
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Home(nav:NavHostController){
-    var mod = Modifier
+    val mod = Modifier
 
     data class Banner(val id:String, val photo:Int, val title:String? = null)
 
     val banners  by remember{
         mutableStateOf(mutableListOf(
             Banner("banner1", R.drawable.banner1),
-            Banner("banner2", R.drawable.banner2)
+            Banner("banner2", R.drawable.banner2),
+            Banner("banner3", R.drawable.banner3),
+            Banner("banner4", R.drawable.banner4),
         ))
     }
 
@@ -50,10 +51,10 @@ fun Home(nav:NavHostController){
         mutableStateOf(mutableListOf(
             Banner("banner1", R.drawable.pizza,"Pizzaria"),
             Banner("banner2", R.drawable.fitness,"Fitness"),
-            Banner("banner1", R.drawable.estoque,"Sistema de estoque"),
-            Banner("banner2", R.drawable.taxi,"Taxi"),
-            Banner("banner1", R.drawable.padaria,"Padaria"),
-            Banner("banner2", R.drawable.lavanderia,"Lavanderia")
+            Banner("banner3", R.drawable.estoque,"Sistema de estoque"),
+            Banner("banner4", R.drawable.taxi,"Taxi"),
+            Banner("banner5", R.drawable.padaria,"Padaria"),
+            Banner("banner6", R.drawable.lavanderia,"Lavanderia")
         ))
     }
     Scaffold(topBar = { HeaderHome(nav)},modifier = mod.fillMaxSize()) {it
@@ -62,7 +63,7 @@ fun Home(nav:NavHostController){
                 .fillMaxSize()
                 .padding(it), color = Color.White) {
             Column {
-                TextContent(title = "Sistemas mais pedidos", fontWeight = 700)
+                TextInput(title = "Nossos Serviços", fontWeight = 700)
                 Spacer(modifier = mod.height(20.dp))
                 LazyRow( horizontalArrangement = Arrangement.spacedBy(10.dp)){
                     items(banners){banner->
@@ -75,7 +76,7 @@ fun Home(nav:NavHostController){
                     CustomButton(title = "Contratar",onClick = {nav.navigate("Contratar") })
                 }
                 Spacer(modifier = mod.height(20.dp))
-                TextContent(title = "Sistemas mais pedidos", fontWeight = 700)
+                TextInput(title = "Sistemas mais pedidos", fontWeight = 700)
                 Spacer(modifier = mod.height(20.dp))
                 LazyRow( horizontalArrangement = Arrangement.spacedBy(10.dp)){
                     items(sistemas){banner->
