@@ -25,6 +25,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.toLowerCase
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.thunder.oficial.R
@@ -45,14 +46,17 @@ fun AppCard(nav: NavHostController, appName: String = "FarmaCour",
 
     Log.i("status",status)
     var icon by remember {
-        mutableStateOf(R.drawable.pagemento_inicial)
+        mutableStateOf(R.drawable.pagamento_inicial
+        )
     }
     LaunchedEffect(status){
-        if(status == "Pagamento inicial")icon = R.drawable.pagemento_inicial
+        if(status == "Aguardando pagamento inicial")icon = R.drawable.pagamento_inicial
+        else if(status == "Pagamento inicial recebido")icon = R.drawable.pagamento_inicial_selected
         else if (status == "Construindo layout")icon = R.drawable.construido_layout_selected
         else if (status == "Em desenvolvimento")icon = R.drawable.em_desenvolvimento_selected
         else if (status == "Aplicação finalizada")icon = R.drawable.aplicacao_finalizada_selected
         else if (status == "Pagamento concluído")icon = R.drawable.pagamento_concluido_selected
+        else if (status == "Aplicativo publicado na PlayStore")icon = R.drawable.playstore_selected
     }
 
     Card(shape = RoundedCornerShape(12.dp), colors = CardDefaults.cardColors(Color.White),modifier = mod.border(1.dp, MainBlue, RoundedCornerShape(10.dp))) {

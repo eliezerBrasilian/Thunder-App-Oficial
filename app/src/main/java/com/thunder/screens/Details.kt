@@ -87,6 +87,9 @@ fun Details(nav: NavHostController) {
     var inDevelopment by remember {
         mutableStateOf(false)
     }
+    var publishedPlaystore by remember {
+        mutableStateOf(false)
+    }
     var buildingLayoutDate by remember {
         mutableStateOf("")
     }
@@ -100,6 +103,9 @@ fun Details(nav: NavHostController) {
         mutableStateOf("")
     }
     var lastPaymentDate by remember {
+        mutableStateOf("")
+    }
+    var publishedPlaystoreDate by remember {
         mutableStateOf("")
     }
 
@@ -118,6 +124,7 @@ fun Details(nav: NavHostController) {
                     inDevelopment = (querySnap.getBoolean("inDevelopment") ?: false) as Boolean
                     lastPayment = (querySnap.getBoolean("lastPayment") ?: false) as Boolean
                     buildingLayout = (querySnap.getBoolean("buildingLayout") ?: false) as Boolean
+                    publishedPlaystore = (querySnap.getBoolean("publishedPlaystore") ?: false) as Boolean
 
                     buildingLayoutDate =
                         timestampToBrazilianDateTime(querySnap.getTimestamp("buildingLayoutDate"))
@@ -129,6 +136,9 @@ fun Details(nav: NavHostController) {
                         timestampToBrazilianDateTime(querySnap.getTimestamp("inDevelopmentDate"))
                     lastPaymentDate =
                         timestampToBrazilianDateTime(querySnap.getTimestamp("lastPaymentDate"))
+
+                    publishedPlaystoreDate =
+                        timestampToBrazilianDateTime(querySnap.getTimestamp("publishedPlaystoreDate"))
                     //Log.i("andamento","$description")
                 }
             }
@@ -160,7 +170,9 @@ fun Details(nav: NavHostController) {
                     hasFinishedDate,
                     inDevelopmentDate,
                     lastPaymentDate,
-                    firstPaymentDate
+                    firstPaymentDate,
+                    publishedPlaystore,
+                    publishedPlaystoreDate
                 )
             }
         }
@@ -185,7 +197,9 @@ fun DetailsApp(
     hasFinishedDate: String,
     inDevelopmentDate: String,
     lastPaymentDate: String,
-    firstPaymentDate: String
+    firstPaymentDate: String,
+    publishedPlaystore: Boolean,
+    publishedPlaystoreDate: String
 ) {
     val mod = Modifier
     var optionSelected by remember {
@@ -255,12 +269,19 @@ fun DetailsApp(
                 {
                     Row(mod.fillMaxWidth()) {
                         Image(
-                            painter = painterResource(id = R.drawable.pagemento_inicial),
+                            painter = painterResource(
+                                id = if (firstPayment) {
+                                    R.drawable.pagamento_inicial_selected
+                                } else {
+                                    R.drawable.pagamento_inicial
+                                }
+
+                            ),
                             contentDescription = ""
                         )
                         Column {
-                            TextContent(title = "Pagamento Inicial", textColor = Color(0xff476B8C) )
-                            TextContent(title = firstPaymentDate, fontSize = 16.sp)
+                            TextContent(title = "Aguardando pagamento inicial", textColor = if(firstPayment){Color(0xff476B8C)}else{Color.Black} )
+                            if(firstPayment)  TextContent(title = firstPaymentDate, fontSize = 16.sp,textColor = if(firstPayment){Color(0xff4397A9)}else{Color.Black})
                         }
                     }
                     Box(mod.padding(start = 10.dp)){
@@ -295,7 +316,7 @@ fun DetailsApp(
                         )
                         Column {
                             TextContent(title = "Construindo Layout", textColor = if(buildingLayout){Color(0xff476B8C)}else{Color.Black} )
-                            TextContent(title = buildingLayoutDate, fontSize = 16.sp,textColor = if(buildingLayout){Color(0xff4397A9)}else{Color.Black})
+                          if(buildingLayout)  TextContent(title = buildingLayoutDate, fontSize = 16.sp,textColor = if(buildingLayout){Color(0xff4397A9)}else{Color.Black})
                         }
                     }
 
@@ -333,7 +354,7 @@ fun DetailsApp(
                         )
                         Column {
                             TextContent(title = "Em desenvolvimento", textColor = if(inDevelopment){Color(0xff476B8C)}else{Color.Black} )
-                            TextContent(title = inDevelopmentDate, fontSize = 16.sp,textColor = if(inDevelopment){Color(0xff4397A9)}else{Color.Black})
+                         if(inDevelopment)   TextContent(title = inDevelopmentDate, fontSize = 16.sp,textColor = if(inDevelopment){Color(0xff4397A9)}else{Color.Black})
                         }
                     }
 
@@ -367,7 +388,7 @@ fun DetailsApp(
                         )
                         Column {
                             TextContent(title = "Aplicação finalizada",textColor = if(hasFinished){Color(0xff476B8C)}else{Color.Black} )
-                            TextContent(title = hasFinishedDate, fontSize = 16.sp,textColor = if(hasFinished){Color(0xff4397A9)}else{Color.Black})
+                          if(hasFinished)  TextContent(title = hasFinishedDate, fontSize = 16.sp,textColor = if(hasFinished){Color(0xff4397A9)}else{Color.Black})
                         }
                     }
                     Box(mod.padding(start = 10.dp)){
@@ -406,10 +427,51 @@ fun DetailsApp(
                                     "Aguardando pagamento final"
                                 },textColor = if(lastPayment){Color(0xff476B8C)}else{Color.Black}
                             )
-                            TextContent(title = lastPaymentDate,fontSize = 16.sp,textColor = if(lastPayment){Color(0xff4397A9)}else{Color.Black})
+                         if(lastPayment)   TextContent(title = lastPaymentDate,fontSize = 16.sp,textColor = if(lastPayment){Color(0xff4397A9)}else{Color.Black})
 
                         }
                     }
+                    Box(mod.padding(start = 10.dp)){
+                        Box(
+                            modifier = mod
+                                .width(7.dp)
+                                .height(50.dp)
+                                .padding(top = 10.dp)
+                                .background(
+                                    if (lastPayment) {
+                                        Color(0xff476B8C)
+                                    } else {
+                                        Color.LightGray
+                                    }
+                                )
+                        )
+                    }
+
+                    Spacer(modifier = mod.height(10.dp))
+
+                    Row(mod.fillMaxWidth()) {
+                        Image(
+                            painter = painterResource(
+                                id = if (publishedPlaystore) {
+                                    R.drawable.playstore_selected
+                                } else {
+                                    R.drawable.playstore
+                                }
+                            ), contentDescription = ""
+                        )
+                        Column {
+                            TextContent(
+                                title = if (publishedPlaystore) {
+                                    "Aplicativo publicado na PlayStore"
+                                } else {
+                                    "Ainda não disponível na PlayStore"
+                                },textColor = if(publishedPlaystore){Color(0xff476B8C)}else{Color.Black}
+                            )
+                            if(publishedPlaystore)   TextContent(title = publishedPlaystoreDate,fontSize = 16.sp,textColor = if(publishedPlaystore){Color(0xff4397A9)}else{Color.Black})
+
+                        }
+                    }
+
                 }
             }
         }else {
