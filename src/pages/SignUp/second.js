@@ -17,8 +17,8 @@ export default function Second() {
   const [birthday_date] = useState(route?.params.birthday_date);
   const [email] = useState(route?.params.email);
   const [phone] = useState(route?.params.phone);
-  const [cpf, setCPF] = useState('');
-  const [password, setPassword] = useState('');
+  const [cpf, setCPF] = useState('12345678910');
+  const [password, setPassword] = useState('123456');
 
   function goToLogin() {
     nav.navigate('Login');

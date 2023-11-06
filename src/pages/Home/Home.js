@@ -14,15 +14,15 @@ import Simulacoes from './Simulacoes';
 import {strings} from '../../assets/strings';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import InviteContainer from './InviteContainer';
-
+import {useNavigation} from '@react-navigation/native';
 export default function Home() {
+  const nav = useNavigation();
   return (
-    <View style={{flex: 1}}>
+    <View style={{flex: 1, backgroundColor: '#fff'}}>
       <Header />
       <ScrollView>
         <View style={s.mainContainer}>
           <StatusBar backgroundColor={colors.light} barStyle={'dark-content'} />
-
           <TopSlider />
 
           <Simulacoes />

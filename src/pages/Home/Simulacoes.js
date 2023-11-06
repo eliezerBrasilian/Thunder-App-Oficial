@@ -21,15 +21,18 @@ export default Simulacoes = () => {
     useState(false);
 
   useEffect(() => {
+    console.log(user.uid);
+
     const unsubscribe = firebase
       .firestore()
-      .collection('users')
-      .doc(user.user_id)
+      .collection('usuarios')
+      .doc(user?.uid)
       .onSnapshot(snap => {
         console.log(snap.data());
         const info = snap.data();
-        console.log(info.emprestimo_consignado.status);
-        setPediuEmprestimoConsignado(info.emprestimo_consignado.status);
+
+        //console.log(info.emprestimo_consignado.status);
+        setPediuEmprestimoConsignado(info.fezSolicitacao);
       });
 
     return () => unsubscribe();

@@ -177,8 +177,10 @@ export default function AuthProvider({children}) {
         console.log('chat was not started: ' + e);
       });
   }
+
+  //fix this
   async function registerOnFirestore(
-    user_id,
+    userId,
     name,
     birthday_date,
     email,
@@ -187,36 +189,25 @@ export default function AuthProvider({children}) {
     password,
   ) {
     try {
-      const emprestimo_consignado = {
-        estado_uf: '',
-        convenio: '',
-        estado_do_pedinte: '', //aposentado...
-        status: false, //solicitou
+      const user = {
+        nome: name,
+        email: email,
+        cpf: cpf,
+        criadoEm: firestore.FieldValue.serverTimestamp(),
+        fotoUrl: null,
+        dataNascimento: birthday_date,
+        senha: password,
+        telefone: phone,
+        status: 'cliente', //admin, agente
+        uid: userId,
       };
       await firestore()
-        .collection('users')
-        .doc(user_id)
-        .set({
-          isAdmin: false,
-          name: name,
-          email: email,
-          createdAt: firestore.FieldValue.serverTimestamp(),
-          profilePhoto: null,
-          birthDay: birthday_date,
-          phone: phone,
-          cpf: cpf,
-          password: password,
-          user_id: user_id,
-          cnpj: '',
-          receita_anual: 0,
-          faturamento_mensal: 0,
-          nome_empresa: '',
-          emprestimo_consignado: emprestimo_consignado,
-          montante_solicitado: 0,
-        })
+        .collection('usuarios')
+        .doc(userId)
+        .set(user)
         .then(async () => {
           console.log('user created');
-          await createPersonalizedChatRoom(profilePhoto, name, user_id);
+          await createPersonalizedChatRoom(profilePhoto, name, userId);
         });
 
       return true;
@@ -305,7 +296,7 @@ export default function AuthProvider({children}) {
 
   async function getUserFromCPF(cpf) {
     try {
-      const usersRef = await firestore().collection('users');
+      const usersRef = firestore().collection('usuarios');
       const querySnapshot = await usersRef.where('cpf', '==', cpf).get();
 
       // Verifica se o usuário com o CPF informado não existe
@@ -322,6 +313,8 @@ export default function AuthProvider({children}) {
   }
 
   async function login(cpf, inputPassword) {
+    console.log(cpf, inputPassword);
+
     setLoadingAuth(true);
 
     const user = await getUserFromCPF(cpf);
@@ -331,7 +324,7 @@ export default function AuthProvider({children}) {
       return 404;
     }
 
-    const passwordCorrect = await verifyPassword(inputPassword, user.password);
+    const passwordCorrect = await verifyPassword(inputPassword, user.senha);
 
     if (passwordCorrect) console.log('Senha correta, usuário autenticado!');
     else {

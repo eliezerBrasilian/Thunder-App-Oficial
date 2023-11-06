@@ -10,10 +10,10 @@ import {useNavigation} from '@react-navigation/native';
 import {Masks} from 'react-native-mask-input';
 export default function SignUp() {
   const nav = useNavigation();
-  const [name, setName] = useState('');
-  const [birthday_date, setBirthDay] = useState('');
-  const [email, setEmail] = useState('');
-  const [phone, setPhone] = useState('');
+  const [name, setName] = useState('Matias');
+  const [birthday_date, setBirthDay] = useState('03/09/1989');
+  const [email, setEmail] = useState('matias3@gmail.com');
+  const [phone, setPhone] = useState('32999998888');
 
   function next() {
     nav.navigate('Second', {name, birthday_date, phone, email});
