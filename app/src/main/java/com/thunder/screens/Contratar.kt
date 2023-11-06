@@ -19,6 +19,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
@@ -38,6 +39,10 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.TransformedText
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
@@ -62,6 +67,7 @@ fun Contratar(nav:NavHostController){
     var whatsappInput by remember {
         mutableStateOf("")
     }
+    val mask = "##) #####-####"
     var customerNameInput by remember{
         mutableStateOf("")
     }
@@ -192,13 +198,23 @@ fun Contratar(nav:NavHostController){
             Spacer(modifier = mod.height(30.dp))
             TextInput(title = "Número de WhatsApp")
             Spacer(modifier = mod.height(10.dp))
-            TextField(value = whatsappInput, onValueChange = { whatsappInput = it },
-                placeholder = { TextInput(
-                    title = "Digite seu número",
-                    fontSize = 17.sp,
-                    fontWeight = 400,
-                    horizontalPadding = 0.dp
-                )
+            val inputLenght = 11;
+            TextField(
+                value = whatsappInput,
+                onValueChange = {
+                    // Filtro para permitir apenas dígitos no número de telefone
+                    val digitsOnly = it.filter { it.isDigit() }
+                    whatsappInput = digitsOnly.take(inputLenght) // Limitar o tamanho do número
+                    //whatsappInput = it.toString()
+                                },
+                //visualTransformation = phoneMask(mask)
+                placeholder = {
+                    TextInput(
+                        title = "Digite seu número",
+                        fontSize = 17.sp,
+                        fontWeight = 400,
+                        horizontalPadding = 0.dp
+                    )
                 },
                 modifier = mod
                     .fillMaxWidth()
@@ -210,7 +226,9 @@ fun Contratar(nav:NavHostController){
                 colors = TextFieldDefaults.textFieldColors(
                     containerColor = Color.White, textColor = Color.Black,
                     placeholderColor = Color.LightGray,
-                ))
+                ),
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+            )
 
             Spacer(modifier = mod.height(30.dp))
             TextInput(title = "Nome do solicitante")
@@ -243,3 +261,10 @@ fun Contratar(nav:NavHostController){
         }
     }
 }
+
+//Neste exemplo, PhoneNumberInput é um campo de entrada para um número de telefone. A função phoneMask é usada como uma transformação visual para aplicar a máscara especificada. A lógica dentro da transformação visual verifica os caracteres digitados e aplica a máscara corretamente ao número de telefone enquanto o usuário digita.
+
+
+
+
+
