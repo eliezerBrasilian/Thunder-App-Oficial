@@ -264,6 +264,56 @@ fun Contratar(nav:NavHostController){
         }
     }
 }
+class MaskTransformation : VisualTransformation {
+    override fun filter(text: AnnotatedString): TransformedText {
+        return maskFilter(text)
+    }
+}
+
+fun maskFilter(text: AnnotatedString): TransformedText {
+    // xxxxxxxxxx -> (xx)xxxxx-xxxx
+    val trimmed = if (text.text.length >= 11) text.text.substring(0..10) else text.text
+    val out = buildAnnotatedString {
+        append("(")
+        for (i in trimmed.indices) {
+            when (i) {
+                2 -> {
+                    append(") ")
+                    append(trimmed[i])
+                }
+                7 -> {
+                    append("-")
+                    append(trimmed[i])
+                }
+                else -> append(trimmed[i])
+            }
+        }
+    }
+
+    val offsetTranslator = object : OffsetMapping {
+        override fun originalToTransformed(offset: Int): Int {
+            return when {
+                offset <= 2 -> offset + 1
+                offset <= 7 -> offset + 3
+                offset <= 12 -> offset + 4
+                else -> offset
+            }
+        }
+
+        override fun transformedToOriginal(offset: Int): Int {
+            return when {
+                offset <= 3 -> offset - 1
+                offset <= 8 -> offset - 3
+                offset <= 13 -> offset - 4
+                else -> offset
+            }
+        }
+    }
+
+    return TransformedText(out, offsetTranslator)
+}
+
+/*
 class MaskTransformation() : VisualTransformation {
     override fun filter(text: AnnotatedString): TransformedText {
         return maskFilter(text)
@@ -273,7 +323,6 @@ class MaskTransformation() : VisualTransformation {
 
 fun maskFilter(text: AnnotatedString): TransformedText {
     //32-99800-8182 ->  11 -> 13
-    // NNNNN-NNN
     val trimmed = if (text.text.length >= 11) text.text.substring(0..10) else text.text
     var out = ""
     for (i in trimmed.indices) {
@@ -298,3 +347,5 @@ fun maskFilter(text: AnnotatedString): TransformedText {
 
     return TransformedText(AnnotatedString(out), numberOffsetTranslator)
 }
+
+ */
