@@ -40,7 +40,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.OffsetMapping
 import androidx.compose.ui.text.input.TransformedText
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
@@ -208,6 +210,7 @@ fun Contratar(nav:NavHostController){
                     //whatsappInput = it.toString()
                                 },
                 //visualTransformation = phoneMask(mask)
+                visualTransformation = MaskTransformation(),
                 placeholder = {
                     TextInput(
                         title = "Digite seu número",
@@ -261,10 +264,37 @@ fun Contratar(nav:NavHostController){
         }
     }
 }
+class MaskTransformation() : VisualTransformation {
+    override fun filter(text: AnnotatedString): TransformedText {
+        return maskFilter(text)
+    }
+}
 
-//Neste exemplo, PhoneNumberInput é um campo de entrada para um número de telefone. A função phoneMask é usada como uma transformação visual para aplicar a máscara especificada. A lógica dentro da transformação visual verifica os caracteres digitados e aplica a máscara corretamente ao número de telefone enquanto o usuário digita.
 
+fun maskFilter(text: AnnotatedString): TransformedText {
+    //32-99800-8182 ->  11 -> 13
+    // NNNNN-NNN
+    val trimmed = if (text.text.length >= 11) text.text.substring(0..10) else text.text
+    var out = ""
+    for (i in trimmed.indices) {
+        out += trimmed[i]
+        if (i==6) out += "-"
+    }
 
+    val numberOffsetTranslator = object : OffsetMapping {
+        override fun originalToTransformed(offset: Int): Int {
+            if (offset <= 6) return offset
+            if (offset <= 11) return offset +1
+            return 13
 
+        }
 
+        override fun transformedToOriginal(offset: Int): Int {
+            if (offset <=7) return offset
+            if (offset <=12) return offset -1
+            return 11
+        }
+    }
 
+    return TransformedText(AnnotatedString(out), numberOffsetTranslator)
+}
