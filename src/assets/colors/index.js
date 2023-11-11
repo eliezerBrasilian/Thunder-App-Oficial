@@ -1,0 +1,26 @@
+const colors = {
+  main_blue: '#024890',
+  main_green: '#35C43F',
+  slider_line: '#FFDD2D',
+  light: '#fff',
+  gray: '#F1F1F1',
+  gray_line: '#F2F2F2',
+  bottom_tab_bg: '#F0F0F0',
+  placeholder_input: '#828282',
+  light_blue: '#236CD9',
+  painelGray: '#C2D2E7',
+  painelOrange: '#FFECCA',
+  painelGreen: '#BEFFE0',
+  painelPink: '#FFD2D8',
+  listItemBackground: '#F6F6F6',
+  textoDestacado: '#CBDAFF',
+  semContratosPagosText: '#BABABA',
+  pagoTitleColor: '#216F06',
+  chatBackground: '#F6F6F6',
+  bubbleBackgroundColor: '#D9E9FC',
+  offerText: '#0111A7',
+  borderCardShopping: '#D2D1D1',
+  thunder_green_color: '#4397A9',
+};
+
+export {colors};
