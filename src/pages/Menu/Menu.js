@@ -12,7 +12,7 @@ export default function Menu({navigation}) {
       <MenuOption
         title={'Cadastrar Cliente'}
         icon={require('../../assets/images/cadastrar_cliente_icon.png')}
-        destination={'Requests'}
+        destination={'CreateCustomer'}
         navigation={navigation}
       />
       <MenuOption
