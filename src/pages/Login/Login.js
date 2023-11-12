@@ -1,6 +1,6 @@
 import {colors} from '../../assets/colors';
 import {strings} from '../../assets/strings';
-import {View, ScrollView} from 'react-native';
+import {View, ScrollView, Alert} from 'react-native';
 import {s} from './style';
 import Header from '../../components/Header';
 import {useState} from 'react';
