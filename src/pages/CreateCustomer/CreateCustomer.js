@@ -6,37 +6,54 @@ import React from 'react';
 import {Utils} from '../../utils/Utils';
 import firestore from '@react-native-firebase/firestore';
 export default function CreateCustomer() {
-  const [whatsapp, setWhatsapp] = React.useState('');
-  const [customerName, setCustomerName] = React.useState('');
-  const [credentialLogin, setCredentialLogin] = React.useState('');
-  const [credentialPassword, setCredentialPassword] = React.useState('');
+  const [customerName, setCustomerName] = React.useState('teste');
+  const [credentialLogin, setCredentialLogin] = React.useState('hjjh');
+  const [credentialPassword, setCredentialPassword] = React.useState('12345');
+  const [whatsapp, setWhatsapp] = React.useState('12345678910');
 
-  function handleCreationOfCustomer() {
-    if (inputsAreValid()) createCustomer();
+  async function handleCreationOfCustomer() {
+    if (inputsAreValid()) await createCustomer();
     else Utils.showToast('preencha todos os campos');
   }
 
-  function createCustomer() {
-    const userRef = firestore().collection('Users');
-    userRef
-      .add({
-        credential: credentialLogin,
-        credentialPassword: credentialPassword,
-        email: null,
-        firstInstallmentPayed: false,
-        secondInstallmentPayed: false,
-        photo: null,
-        name: customerName,
-        whatsapp: whatsapp,
-        isAdmin: false,
-        createdAt: firestore.FieldValue.serverTimestamp(),
-        uid: null,
-      })
-      .then(response => {
-        const docId = response.id;
-        userRef.doc(docId).update({uid: docId});
-        Utils.showToast('cliente criado');
-      });
+  async function createCustomer() {
+    const credentialAvailable = await credentialInformedForLoginIsAvailable(
+      credentialLogin,
+    );
+    if (credentialAvailable) {
+      console.log('available');
+
+      const userRef = firestore().collection('Users');
+      userRef
+        .add({
+          apps: 0,
+          credential: credentialLogin,
+          credentialPassword: credentialPassword,
+          deleted: false,
+          email: null,
+          firstInstallmentPayed: false,
+          secondInstallmentPayed: false,
+          photo: null,
+          name: customerName,
+          whatsapp: whatsapp,
+          isAdmin: false,
+          createdAt: firestore.FieldValue.serverTimestamp(),
+          uid: null,
+        })
+        .then(response => {
+          const docId = response.id;
+          userRef.doc(docId).update({uid: docId});
+          Utils.showToast('cliente criado');
+        });
+    } else Utils.showToast('esta credential já está em uso');
+  }
+
+  async function credentialInformedForLoginIsAvailable(credential) {
+    const credentialFounded = await firestore()
+      .collection('Users')
+      .where('credential', '==', credential)
+      .get();
+    return credentialFounded.empty;
   }
 
   function inputsAreValid() {
