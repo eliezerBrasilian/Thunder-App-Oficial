@@ -1,6 +1,6 @@
 import firestore from '@react-native-firebase/firestore';
 import {useEffect, useState} from 'react';
-import {FlatList, Keyboard, View} from 'react-native';
+import {FlatList, View, TouchableOpacity} from 'react-native';
 import Header from '../../components/Header';
 import {colors} from '../../assets/colors';
 import {TextContent} from '../../components/TextContent';
@@ -15,6 +15,7 @@ export default function Requests() {
       firestore()
         .collection('Pedidos')
         .orderBy('createdAt', 'desc')
+        .where('deleted', '==', false)
         .onSnapshot(querySnap => {
           var list = [];
           querySnap.docs.forEach(document => {
@@ -52,8 +53,24 @@ const RequestItem = ({data}) => {
     Utils.copytoclipboard(data.customerName, 'nome do solicitante copiado');
   }
 
+  function showAlert(requestId) {
+    Utils.showAlert(
+      () => deleteRequest(requestId),
+      'Thunder - Alerta',
+      'Deseja excluir esse pedido?',
+    );
+  }
+  function deleteRequest(requestId) {
+    firestore().collection('Pedidos').doc(requestId).update({
+      deleted: true,
+    });
+    Utils.showToast('pedido excluido');
+  }
+
   return (
-    <View
+    <TouchableOpacity
+      onLongPress={() => showAlert(data.id)}
+      activeOpacity={0.8}
       style={{
         borderRadius: 12,
         borderWidth: 1,
@@ -88,6 +105,6 @@ const RequestItem = ({data}) => {
         backgroundColor={colors.thunder_green_color}>
         <TextContent color="#fff">Gerar frase para WhatsApp</TextContent>
       </Button>
-    </View>
+    </TouchableOpacity>
   );
 };

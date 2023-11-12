@@ -74,18 +74,10 @@ export default function AdminScreen() {
 
 const CustomerItem = ({data}) => {
   function showAlert(customerId) {
-    Alert.alert(
+    Utils.showAlert(
+      () => deleteCustomer(customerId),
       'Thunder - Alerta',
       'Deseja excluir esse cliente?',
-      [
-        {
-          text: 'Excluir',
-          onPress: () => {
-            deleteCustomer(customerId);
-          },
-        },
-      ],
-      {cancelable: true},
     );
   }
   function deleteCustomer(customerId) {
