@@ -67,7 +67,7 @@ export default function Contratar() {
   }
   return (
     <View style={{flex: 1, backgroundColor: '#fff', padding: 10}}>
-      <Header titleColor="#4397A9" color="#4397A9" title={'Contratar'} />
+      <Header titleColor="#4397A9" color="#4397A9" title={'Fazer orçamento'} />
       <ScrollView showsVerticalScrollIndicator={false} style={{flex: 1}}>
         <View>
           <TextContent fontSize={18} fontWeight="600">
@@ -116,7 +116,7 @@ export default function Contratar() {
               onClick={checkInfo}
               padding={16}
               borderRadius={25}>
-              Enviar informações
+              Fazer orçamento
             </Button>
           </View>
           <Alert

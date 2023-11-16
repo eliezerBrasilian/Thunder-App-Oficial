@@ -1,13 +1,7 @@
 import * as React from 'react';
-import {Dimensions, Text, View, Image, FlatList} from 'react-native';
-import {styles} from './style';
-import {ExpandingDot} from 'react-native-animated-pagination-dots';
+import {View, Image, FlatList} from 'react-native';
 import {strings} from '../../assets/strings';
-import {colors} from '../../assets/colors';
-import Carousel from 'react-native-snap-carousel';
 export default function CarrouselAnimated() {
-  const width = Dimensions.get('window').width;
-
   return (
     <View style={{flexDirection: 'row'}}>
       <FlatList

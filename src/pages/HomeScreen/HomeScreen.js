@@ -36,12 +36,13 @@ export default function HomeScreen() {
 
         <View style={{alignItems: 'center'}}>
           <Button
+            width={200}
             onClick={function () {
               nav.navigate('Contratar');
             }}
             fontWeight="bold"
             padding={15}>
-            Contratar
+            Fazer orçamento
           </Button>
         </View>
 
