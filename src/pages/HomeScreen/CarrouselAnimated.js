@@ -17,16 +17,7 @@ export default function CarrouselAnimated() {
 
 function Item({data}) {
   return (
-    <View
-      style={
-        {
-          // elevation: 5,
-          // shadowColor: '#000',
-          // shadowOffset: {width: 0, height: 2},
-          // shadowOpacity: 0.5,
-          // shadowRadius: 2,
-        }
-      }>
+    <View>
       <Image
         style={{height: 300, width: 250, borderRadius: 10}}
         source={data.img}
@@ -34,38 +25,6 @@ function Item({data}) {
     </View>
   );
 }
-// export default function CarrouselAnimated({entries}) {
-//   const width = Dimensions.get('window').width;
-
-//   const inputRange = [0, INTRO_DATA.length];
-//   const renderItem = ({item, index}) => {
-//     return (
-//       <View
-//         style={{
-//           backgroundColor: 'floralwhite',
-//           borderRadius: 5,
-//           height: 250,
-//           padding: 50,
-//           marginLeft: 25,
-//           marginRight: 25,
-//         }}>
-//         <Text style={styles.title}>{item.title}</Text>
-//       </View>
-//     );
-//   };
-
-//   return (
-//     <View style={{flex: 1, flexDirection: 'row'}}>
-//       <Carousel
-//         layout={'stack'}
-//         data={INTRO_DATA}
-//         renderItem={renderItem}
-//         sliderWidth={300}
-//         itemWidth={300}
-//       />
-//     </View>
-//   );
-// }
 
 const INTRO_DATA = [
   {

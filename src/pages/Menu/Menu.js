@@ -1,8 +1,10 @@
-import {View, TouchableOpacity} from 'react-native';
-import {TextContent} from '../../components/TextContent';
+import {TouchableOpacity, View} from 'react-native';
+
 import {colors} from '../../assets/colors';
 import {ImageIcon} from '../../components/ImageIcon';
+import {TextContent} from '../../components/TextContent';
 import {useAuthContext} from '../../contexts/AuthContext';
+
 export default function Menu({navigation}) {
   const {signOut} = useAuthContext();
   return (
@@ -15,16 +17,17 @@ export default function Menu({navigation}) {
         destination={'CreateCustomer'}
         navigation={navigation}
       />
-      <MenuOption
-        title={'Excluir Cliente'}
-        icon={require('../../assets/images/excluir_cliente_icon.png')}
-        destination={'Requests'}
-        navigation={navigation}
-      />
+
       <MenuOption
         title={'Listar Pedidos'}
         icon={require('../../assets/images/list.png')}
         destination={'Requests'}
+        navigation={navigation}
+      />
+      <MenuOption
+        title={'Pedidos excluidos'}
+        icon={require('../../assets/images/excluir_cliente_icon.png')}
+        destination={'RequestsTrash'}
         navigation={navigation}
       />
       <TextContent clickable={true} onClick={signOut}>

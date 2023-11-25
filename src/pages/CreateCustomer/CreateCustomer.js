@@ -6,10 +6,10 @@ import React from 'react';
 import {Utils} from '../../utils/Utils';
 import firestore from '@react-native-firebase/firestore';
 export default function CreateCustomer() {
-  const [customerName, setCustomerName] = React.useState('teste');
-  const [credentialLogin, setCredentialLogin] = React.useState('hjjh');
-  const [credentialPassword, setCredentialPassword] = React.useState('12345');
-  const [whatsapp, setWhatsapp] = React.useState('12345678910');
+  const [customerName, setCustomerName] = React.useState('');
+  const [credentialLogin, setCredentialLogin] = React.useState('');
+  const [credentialPassword, setCredentialPassword] = React.useState('');
+  const [whatsapp, setWhatsapp] = React.useState('');
 
   async function handleCreationOfCustomer() {
     if (inputsAreValid()) await createCustomer();

@@ -1,25 +1,19 @@
-import Header from '../../components/Header';
-import {View, ScrollView} from 'react-native';
-import {TextContent} from '../../components/TextContent';
-import {Spinner} from '../../components/Spinner';
-import React from 'react';
-import {Button} from '../../components/Button';
-import {Input} from '../../components/Input';
-import Alert from '../../components/Alert';
-import firestore from '@react-native-firebase/firestore';
-export default function Contratar() {
-  const nichos = [
-    {key: '1', value: 'Alimentação'},
-    {key: '2', value: 'Bebida'},
-    {key: '4', value: 'Delivery'},
-    {key: '5', value: 'Educação'},
-    {key: '7', value: 'Estética'},
-    {key: '8', value: 'Lazer'},
-    {key: '9', value: 'Saúde'},
-    {key: '10', value: 'Transporte'},
-    {key: '11', value: 'Vestuário'},
-  ];
+import {ScrollView, View} from 'react-native';
 
+import firestore from '@react-native-firebase/firestore';
+import React from 'react';
+import SmsRetriever from 'react-native-sms-retriever';
+import Alert from '../../components/Alert';
+import {Button} from '../../components/Button';
+import Header from '../../components/Header';
+import {Input} from '../../components/Input';
+import {Spinner} from '../../components/Spinner';
+import {TextContent} from '../../components/TextContent';
+import {TextSimilarToInputComponent} from '../../components/TextSimilarToInputComponent';
+import {SimCard} from '../../utils/SimCard';
+import {Utils} from '../../utils/Utils';
+
+export default function Contratar() {
   const [nichoSelected, setNichoSelected] = React.useState('Estética');
   const [placeholder, setPlaceholder] = React.useState('Nicho do aplicativo');
   const [appName, setAppName] = React.useState('');
@@ -28,6 +22,31 @@ export default function Contratar() {
   const [modalVisible, setModalVisible] = React.useState(false);
   const [errorMessage, setErrorMessage] = React.useState(null);
 
+  React.useEffect(() => {
+    SimCard.checkSimCard(loadSimCard);
+    //getSimCard();
+    //setupSimCard();
+  }, []);
+
+  const loadSimCard = async () => {
+    do {
+      const phoneNumber = await getSimCard();
+      if (phoneNumber !== null) {
+        setWhatsapp(phoneNumber);
+        break;
+      }
+    } while (true);
+  };
+
+  async function getSimCard() {
+    try {
+      const number = await SmsRetriever.requestPhoneNumber();
+      return number.substring(3);
+    } catch (error) {
+      return null;
+    }
+  }
+
   function checkInfo() {
     if (
       appName.trim() !== '' &&
@@ -35,7 +54,7 @@ export default function Contratar() {
       appName.trim() !== '' &&
       customerName.trim() !== ''
     ) {
-      if (whatsapp.trim().length < 15) {
+      if (whatsapp.trim() == '') {
         console.log('whas inc');
         setErrorMessage('WhatsApp está incompleto');
         setModalVisible(true);
@@ -46,20 +65,21 @@ export default function Contratar() {
         return;
       } else sendRequest();
     } else {
-      setErrorMessage('Preencha todos os dados');
+      setErrorMessage('Preencha todos os campos');
       setModalVisible(true);
       console.log('preencha todos os dados');
     }
   }
   function sendRequest() {
     firestore()
-      .collection('Pedidos')
+      .collection('Requests')
       .add({
         appName: appName,
         createdAt: firestore.FieldValue.serverTimestamp(),
         customerName: customerName,
         nicho: nichoSelected,
         whatsapp: whatsapp,
+        deleted: false,
       })
       .then(() => {
         setModalVisible(true);
@@ -79,7 +99,7 @@ export default function Contratar() {
             <TextContent fontWeight="bold"></TextContent>
 
             <Spinner
-              data={nichos}
+              data={Utils.getNiches()}
               placeholder={placeholder}
               setSelected={setNichoSelected}
               nichoSelected={nichoSelected}
@@ -91,7 +111,7 @@ export default function Contratar() {
             value={appName}
             setValue={setAppName}
           />
-          <Input
+          <TextSimilarToInputComponent
             label={'Número de WhatsApp'}
             placeholderText="Digite seu número"
             value={whatsapp}

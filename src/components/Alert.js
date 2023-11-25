@@ -1,18 +1,22 @@
-import {View, Image} from 'react-native';
+import {Image, View} from 'react-native';
+
+import {useNavigation} from '@react-navigation/native';
 import Modal from 'react-native-modal';
-import {TextContent} from './TextContent';
 import {Button} from './Button';
+import {TextContent} from './TextContent';
+
 export default Alert = ({
   visible,
   setModalVisible,
   message = null,
   setErrorMessage,
 }) => {
-  console.log('message is: ' + message);
+  const nav = useNavigation();
 
   const handleCloseModal = () => {
     setErrorMessage(null);
     setModalVisible(false);
+    nav.goBack();
   };
   return (
     <Modal isVisible={visible} onBackButtonPress={handleCloseModal}>
