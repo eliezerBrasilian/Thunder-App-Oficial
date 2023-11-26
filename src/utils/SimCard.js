@@ -5,7 +5,7 @@ export class SimCard {
     const rationale = {
       title: 'Permissão de SimCard',
       message:
-        'O aplicativo precisa acessar o armazenamento externo para salvar os seus arquivos.',
+        'Thunder precisa de obter seu simCard para preenchimento automático.',
       buttonNeutral: 'Pergunte-me depois',
       buttonNegative: 'Cancelar',
       buttonPositive: 'OK',

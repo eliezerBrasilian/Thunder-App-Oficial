@@ -4,12 +4,10 @@ import firestore from '@react-native-firebase/firestore';
 import React from 'react';
 import Header from '../../components/Header';
 import {TextContent} from '../../components/TextContent';
-import {useAuthContext} from '../../contexts/AuthContext';
 
 export default function RequestsTrash() {
-  const {user} = useAuthContext();
-  const uid = user?.uid;
   const [requestsDeleted, setRequestsDeleted] = React.useState([]);
+  const [requestsDeteletedTotal, setRequestsDeteletedTotal] = React.useState(0);
   React.useEffect(() => {
     firestore()
       .collection('Requests')
@@ -19,20 +17,26 @@ export default function RequestsTrash() {
 
       .then(requests => {
         const requestList = [];
+        let counterRequestsDeleted = 0;
         requests.forEach(request => {
-          console.log(request.data());
+          counterRequestsDeleted++;
           requestList.push({
             key: request.id,
             ...request.data(),
           });
         });
         setRequestsDeleted(requestList);
+        setRequestsDeteletedTotal(counterRequestsDeleted);
       });
   }, []);
 
   return (
-    <View style={{flex: 1, backgroundColor: '#fff'}}>
+    <View style={{flex: 1, backgroundColor: '#fff', padding: 10}}>
       <Header title={'Pedidos excluidos'} />
+      <TextContent>
+        Total de pedidos excluidos: {requestsDeteletedTotal}
+      </TextContent>
+      <View style={{marginBottom: 15}} />
       <FlatList
         data={requestsDeleted}
         renderItem={({item}) => <RequestItem data={item} />}

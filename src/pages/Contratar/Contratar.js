@@ -63,7 +63,10 @@ export default function Contratar() {
         setErrorMessage('Seu nome está muito curto');
         setModalVisible(true);
         return;
-      } else sendRequest();
+      } else {
+        setErrorMessage(null);
+        sendRequest();
+      }
     } else {
       setErrorMessage('Preencha todos os campos');
       setModalVisible(true);
